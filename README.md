@@ -1,15 +1,18 @@
-Run
+# Run
 
-`go build`
+`ruby app.rb`
 
-Installation
+# Installation
 
-`go get github.com/BurntSushi/toml gopkg.in/mgo.v2 github.com/gorilla/mux`
+`gem install bson`
+`gem install sinatra`
 
-References
+To install MongoDB follow [this guide](https://treehouse.github.io/installation-guides/mac/mongo-mac.html)
 
+To create the database we will use:
 
-`https://www.codementor.io/codehakase/building-a-restful-api-with-golang-a6yivzqdo`
-`https://hackernoon.com/build-restful-api-in-go-and-mongodb-5e7f2ec4be94`
+`mongo to-do-list`
+`db.tasks.insert({name: "teléfono", desciption: "+56932543157"})`
+`db.tasks.insert({name: "Million dollar ideas", desciption: "to-do/trello/recordatorios + (API en go + MongoDB)"})`
 
-
+# References

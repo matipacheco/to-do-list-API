@@ -1,13 +1,21 @@
+require "bson"
 require "sinatra"
 
-get '/to-do/api/tasks' do
-  "GET"
+
+get '/to-do-list/api/tasks' do
+  "GET ALL"
 end
 
-post '/to-do/api/tasks' do
+get '/to-do-list/api/tasks/:id' do
+  "GET SINGLE " + params[:id]
+end
+
+
+
+post '/to-do-list/api/tasks' do
   "POST"
 end
 
-delete '/to-do/api/tasks' do
+delete '/to-do-list/api/tasks' do
   "DELETE"
 end
