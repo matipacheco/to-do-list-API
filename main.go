@@ -1,32 +1,41 @@
 package main
 
 import (
-	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 	"github.com/gorilla/mux"
 )
 
-func GetTask(writter http.ResponseWriter, r *http.Request) {
-	
+func GetTask(writter http.ResponseWriter, request *http.Request) {
+	fmt.Fprintln(writter, "Not yet implemented")
 }
 
-func CreateTask(writter http.ResponseWriter, r *http.Request) {
-	
+func CreateTask(writter http.ResponseWriter, request *http.Request) {
+	fmt.Fprintln(writter, "Not yet implemented")	
 }
 
-func DeleteTask(writter http.ResponseWriter, r *http.Request) {
-	
+func DeleteTask(writter http.ResponseWriter, request *http.Request) {
+	fmt.Fprintln(writter, "Not yet implemented")
 }
+
+
+type Task struct {
+	Id 		bson.ObjectId `bson:"_id" json:"id"`
+	Name	string        `bson:"name" json:"name"`
+	Content string        `bson:"content" json:"content"`
+}
+
 
 // our main function
 func main() {
 	router := mux.NewRouter()
 	router.HandleFunc("/to-do/api/{id}", GetTask).Methods("GET")
-	router.HandleFunc("/to-do/api/{id}", CreateTask).Methods("POST")
-	router.HandleFunc("/to-do/api/{id}", DeleteTask).Methods("DELETE")
+	router.HandleFunc("/to-do/api/", 	 GetTasks).Methods("GET")
+	router.HandleFunc("/to-do/api/", 	 CreateTask).Methods("POST")
+	router.HandleFunc("/to-do/api/", 	 DeleteTask).Methods("DELETE")
 
-	log.Fatal(http.ListenAndServe(":8000", router))
+	log.Fatal(http.ListenAndServe(":3000", router))
 }
 
 
