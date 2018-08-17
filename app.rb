@@ -8,7 +8,8 @@ get '/to-do-list/api/tasks' do
 end
 
 get '/to-do-list/api/tasks/:id' do
-  #dynamo_handler = DynamoHandler.new()
+  dynamo_handler = DynamoHandler.new()
+  dynamo_handler.get_item(params).to_json()
 end
 
 # Nota:

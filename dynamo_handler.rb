@@ -16,25 +16,29 @@ class DynamoHandler
   end
 
 
-  def format_params item
+  def format_put_params item
     return { item: item, table_name: @table_name }
   end
 
+  def format_get_params item
+    return { key: item, table_name: @table_name }
+  end
 
-  # def get_item item
-  #   begin
-  #     result = @dynamodb_client.get_item(params)
-  #     return 
-  #   rescue  Aws::DynamoDB::Errors::ServiceError => error
-  #     puts error.message
 
-  #   end
-  # end
+  def get_item item
+    begin
+      return { code: 200, message: "OK", payload: @dynamodb_client.get_item(format_get_params(item)).item }
+       
+    rescue  Aws::DynamoDB::Errors::ServiceError => error
+      return { code: 500, message: error.message }
+
+    end
+  end
 
 
   def put_item item
     begin
-      @dynamodb_client.put_item(format_params(item))
+      @dynamodb_client.put_item(format_put_params(item))
       return { code: 200, message: "OK" }
       
     rescue  Aws::DynamoDB::Errors::ServiceError => error
