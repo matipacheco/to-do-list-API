@@ -3,10 +3,10 @@ require "pry"
 require_relative "dynamo_handler"
 
 
-# get '/to-do-list/api/tasks' do
-#   dynamo_handler = DynamoHandler.new()
-#   dynamo_handler.query(params).to_json()
-# end
+get '/to-do-list/api/tasks' do
+  dynamo_handler = DynamoHandler.new()
+  dynamo_handler.get_all_items().to_json()
+end
 
 get '/to-do-list/api/tasks/:id' do
   dynamo_handler = DynamoHandler.new()
