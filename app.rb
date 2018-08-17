@@ -20,5 +20,6 @@ post '/to-do-list/api/tasks' do
 end
 
 delete '/to-do-list/api/tasks' do
-  "DELETE"
+  dynamo_handler = DynamoHandler.new()
+  dynamo_handler.delete_item(params).to_json()
 end

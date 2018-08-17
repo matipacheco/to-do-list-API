@@ -46,4 +46,16 @@ class DynamoHandler
 
     end
   end
+
+
+  def delete_item item
+    begin
+      @dynamodb_client.delete_item(format_get_params(item))
+      return { code: 200, message: "OK" }
+      
+    rescue  Aws::DynamoDB::Errors::ServiceError => error
+      return { code: 500, message: error.message }
+
+    end
+  end
 end
