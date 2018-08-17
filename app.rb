@@ -1,4 +1,6 @@
 require "sinatra"
+require "pry"
+require_relative "dynamo_handler"
 
 
 get '/to-do-list/api/tasks' do
@@ -6,13 +8,14 @@ get '/to-do-list/api/tasks' do
 end
 
 get '/to-do-list/api/tasks/:id' do
-  "GET SINGLE " + params[:id]
+  #dynamo_handler = DynamoHandler.new()
 end
 
-
-
+# Nota:
+# los params entran como form-data desde Postman
 post '/to-do-list/api/tasks' do
-  "POST"
+  dynamo_handler = DynamoHandler.new()
+  dynamo_handler.put_item(params).to_json()
 end
 
 delete '/to-do-list/api/tasks' do
