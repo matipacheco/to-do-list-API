@@ -17,12 +17,45 @@ class DynamoHandler
 
 
   def format_put_params item
-    return { item: item, table_name: @table_name }
+    return {
+              item: item,
+              table_name: @table_name
+            }
   end
 
   def format_get_params item
-    return { key: item, table_name: @table_name }
+    return {
+              key: item,
+              table_name: @table_name
+            }
   end
+
+  # def format_update_params item
+  #   return {
+  #             key: {
+  #                     id: item[:id]
+  #                   },
+  #             update_expression: "set info.name = :n, info.description = :d",
+  #             expression_attribute_values: {
+  #               ":n"        => item[:name],
+  #               ":d" => item[:description]
+  #             },
+  #             return_values: "UPDATED_NEW",
+  #             table_name: @table_name 
+  #           }
+  # end
+
+
+  # def query item
+  #   begin
+  #     binding.pry
+  #     return { code: 200, message: "OK", payload: @dynamodb_client.query({table_name: @table_name }).items }
+       
+  #   rescue  Aws::DynamoDB::Errors::ServiceError => error
+  #     return { code: 500, message: error.message }
+
+  #   end
+  # end
 
 
   def get_item item
@@ -35,6 +68,17 @@ class DynamoHandler
     end
   end
 
+
+  # def update_item item
+  #   begin
+  #     binding.pry
+  #     return { code: 200, message: "OK", payload: @dynamodb_client.update_item(format_update_params(item)) }
+       
+  #   rescue  Aws::DynamoDB::Errors::ServiceError => error
+  #     return { code: 500, message: error.message }
+
+  #   end
+  # end
 
   def put_item item
     begin
@@ -52,7 +96,7 @@ class DynamoHandler
     begin
       @dynamodb_client.delete_item(format_get_params(item))
       return { code: 200, message: "OK" }
-      
+
     rescue  Aws::DynamoDB::Errors::ServiceError => error
       return { code: 500, message: error.message }
 
