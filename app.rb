@@ -1,5 +1,4 @@
 require "sinatra"
-require "pry"
 require_relative "dynamo_handler"
 
 # Get all the Tasks
