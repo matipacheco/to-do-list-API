@@ -16,19 +16,23 @@ class DynamoHandler
       )
   end
 
+
   def default_params
     return @params
   end
+
 
   def format_item_params item
     @params[:item] = item
     return @params
   end
 
+
   def format_key_params item
     @params[:key] = item
     return @params
   end
+
 
   def format_update_params item
     format_key_params( { id: item[:id] })
