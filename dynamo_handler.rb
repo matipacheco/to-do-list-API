@@ -3,8 +3,8 @@ require 'aws-sdk-dynamodb'
 class DynamoHandler
 
   def initialize
-    access_key = "AKIAJILQSHSCIKTN5TCA"
-    secret_key = "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"
+    access_key = ENV["TO_DO_ACCESS_KEY"]
+    secret_key = ENV["TO_DO_SECRET_KEY"]
 
     @params = Hash.new()
     @params[:table_name] = "Tasks"
@@ -17,25 +17,25 @@ class DynamoHandler
   end
 
 
-  def default_params
+  def params
     return @params
   end
 
 
-  def format_item_params item
+  def add_item item
     @params[:item] = item
-    return @params
+    params
   end
 
 
-  def format_key_params item
+  def add_key item
     @params[:key] = item
-    return @params
+    params
   end
 
 
-  def format_update_params item
-    format_key_params( { id: item[:id] })
+  def add_update_expressions item
+    add_key( { id: item[:id] })
     
     @params[:return_values]               = "UPDATED_NEW"
     @params[:update_expression]           = "set task_name = :n, task_description = :d"
@@ -43,14 +43,14 @@ class DynamoHandler
         ":n" => item[:task_name],
         ":d" => item[:task_description]
       }
-    
-    return @params
+
+    params
   end
 
 
   def scan
     begin
-      return { code: 200, message: "OK", payload: @dynamodb_client.scan(default_params()).items }
+      return { code: 200, message: "OK", payload: @dynamodb_client.scan(params()).items }
        
     rescue  Aws::DynamoDB::Errors::ServiceError => error
       return { code: 500, message: error.message }
@@ -61,7 +61,7 @@ class DynamoHandler
 
   def get_item item
     begin
-      return { code: 200, message: "OK", payload: @dynamodb_client.get_item(format_key_params(item)).item }
+      return { code: 200, message: "OK", payload: @dynamodb_client.get_item(add_key(item)).item }
        
     rescue  Aws::DynamoDB::Errors::ServiceError => error
       return { code: 500, message: error.message }
@@ -72,7 +72,7 @@ class DynamoHandler
 
   def update_item item
     begin
-      return { code: 200, message: "OK", payload: @dynamodb_client.update_item(format_update_params(item)) }
+      return { code: 200, message: "OK", payload: @dynamodb_client.update_item(add_update_expressions(item)) }
        
     rescue  Aws::DynamoDB::Errors::ServiceError => error
       return { code: 500, message: error.message }
@@ -83,7 +83,7 @@ class DynamoHandler
 
   def put_item item
     begin
-      @dynamodb_client.put_item(format_item_params(item))
+      @dynamodb_client.put_item(add_item(item))
       return { code: 200, message: "OK" }
       
     rescue  Aws::DynamoDB::Errors::ServiceError => error
@@ -95,7 +95,7 @@ class DynamoHandler
 
   def delete_item item
     begin
-      @dynamodb_client.delete_item(format_key_params(item))
+      @dynamodb_client.delete_item(add_key(item))
       return { code: 200, message: "OK" }
 
     rescue  Aws::DynamoDB::Errors::ServiceError => error
