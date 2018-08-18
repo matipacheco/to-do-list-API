@@ -3,8 +3,8 @@ require 'aws-sdk-dynamodb'
 class DynamoHandler
 
   def initialize
-    access_key = ENV["TO_DO_ACCESS_KEY"]
-    secret_key = ENV["TO_DO_SECRET_KEY"]
+    access_key = ENV["AWS_ACCESS_KEY"]
+    secret_key = ENV["AWS_SECRET_KEY"]
 
     @params = Hash.new()
     @params[:table_name] = "Tasks"
