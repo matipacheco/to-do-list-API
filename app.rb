@@ -5,7 +5,7 @@ require_relative "dynamo_handler"
 # Get all the Tasks
 get '/to-do-list/api/tasks' do
   dynamo_handler = DynamoHandler.new()
-  dynamo_handler.get_all_items().to_json()
+  dynamo_handler.scan().to_json()
 end
 
 # Get an specific Task

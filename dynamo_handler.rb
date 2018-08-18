@@ -1,4 +1,3 @@
-require 'json'
 require 'aws-sdk-dynamodb'
 
 class DynamoHandler
@@ -11,10 +10,10 @@ class DynamoHandler
     @params[:table_name] = "Tasks"
 
     @dynamodb_client = Aws::DynamoDB::Client.new(
-                        access_key_id:      access_key,
-                        secret_access_key:  secret_key,
-                        region:             "us-east-1"
-                      )
+        access_key_id:      access_key,
+        secret_access_key:  secret_key,
+        region:             "us-east-1"
+      )
   end
 
   def default_params
@@ -31,23 +30,21 @@ class DynamoHandler
     return @params
   end
 
-  # def format_update_params item
-  #   return {
-  #             key: {
-  #                     id: item[:id]
-  #                   },
-  #             update_expression: "set info.name = :n, info.description = :d",
-  #             expression_attribute_values: {
-  #               ":n"        => item[:name],
-  #               ":d" => item[:description]
-  #             },
-  #             return_values: "UPDATED_NEW",
-  #             table_name: @table_name 
-  #           }
-  # end
+  def format_update_params item
+    format_key_params( { id: item[:id] })
+    
+    @params[:return_values]               = "UPDATED_NEW"
+    @params[:update_expression]           = "set task_name = :n, task_description = :d"
+    @params[:expression_attribute_values] = {
+        ":n" => item[:task_name],
+        ":d" => item[:task_description]
+      }
+    
+    return @params
+  end
 
 
-  def get_all_items
+  def scan
     begin
       return { code: 200, message: "OK", payload: @dynamodb_client.scan(default_params()).items }
        
@@ -69,16 +66,16 @@ class DynamoHandler
   end
 
 
-  # def update_item item
-  #   begin
-  #     binding.pry
-  #     return { code: 200, message: "OK", payload: @dynamodb_client.update_item(format_update_params(item)) }
+  def update_item item
+    begin
+      return { code: 200, message: "OK", payload: @dynamodb_client.update_item(format_update_params(item)) }
        
-  #   rescue  Aws::DynamoDB::Errors::ServiceError => error
-  #     return { code: 500, message: error.message }
+    rescue  Aws::DynamoDB::Errors::ServiceError => error
+      return { code: 500, message: error.message }
 
-  #   end
-  # end
+    end
+  end
+
 
   def put_item item
     begin
