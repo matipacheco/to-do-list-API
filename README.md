@@ -12,6 +12,10 @@ By using this API you are able to get, store and delete the elements on the to-d
 
 `gem install sinatra aws-sdk-dynamodb`
 
+# Deployment
+
+https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/ruby-sinatra-tutorial.html
+
 # References
 
 ### Sinatra Documentation
