@@ -1,5 +1,5 @@
 require "sinatra"
-require_relative "dynamo_handler"
+require_relative "lib/dynamo_handler"
 
 # Get all the Tasks
 get '/to-do-list/api/tasks' do
