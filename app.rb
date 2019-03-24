@@ -2,6 +2,7 @@ require "sinatra"
 require_relative "lib/dynamo_handler"
 
 # Get all the Tasks
+options '/to-do-list/api/tasks' do; end
 get '/to-do-list/api/tasks' do
   dynamo_handler = DynamoHandler.new()
   dynamo_handler.scan().to_json()
