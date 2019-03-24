@@ -1,8 +1,18 @@
-require "sinatra"
-require_relative "lib/dynamo_handler"
+require 'sinatra'
+require 'sinatra/cross_origin'
+require_relative 'lib/dynamo_handler'
+
+configure do
+  enable :cross_origin
+end
+
+options '*' do
+  response.headers['Allow'] = 'HEAD,GET,PUT,POST,DELETE,OPTIONS'
+  response.headers['Access-Control-Allow-Headers'] = 'X-Requested-With, X-HTTP-Method-Override, Content-Type, Cache-Control, Accep'
+  200
+end
 
 # Get all the Tasks
-options '/to-do-list/api/tasks' do; end
 get '/to-do-list/api/tasks' do
   dynamo_handler = DynamoHandler.new()
   dynamo_handler.scan().to_json()
